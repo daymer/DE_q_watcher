@@ -25,31 +25,31 @@
 $log = @ScriptDir & "\De q Watcher.log"
 
 
-;~ #Region start vars
-;~ If $CmdLine[0] = "" Then
-;~     MsgBox(64, "Warning", "Started without needful arguments.", 10)
-;~    Exit
-;~ EndIf
-;~ For $i=1 to 3
-;~ $t=$i*2-1
-;~ ;-----------------------------------------------------
-;~ If $CmdLine[$t] = "-timeout" Then
-;~    $timeout = $CmdLine[$t+1]
-;~ EndIf
-;~ ;-----------------------------------------------------
-;~ If $CmdLine[$t] = "-usb_serial" Then
-;~    $usb_serial = $CmdLine[$t+1]
-;~ EndIf
-;~ ;-----------------------------------------------------
-;~ If $CmdLine[$t] = "-time_to_react" Then
-;~    $time_to_react = $CmdLine[$t+1]
-;~ EndIf
-;~ Next
-;~ #EndRegion
+#Region start vars
+If $CmdLine[0] = "" Then
+    MsgBox(64, "Warning", "Started without needful arguments.", 10)
+   Exit
+EndIf
+For $i=1 to 3
+$t=$i*2-1
+;-----------------------------------------------------
+If $CmdLine[$t] = "-timeout" Then
+   $timeout = $CmdLine[$t+1]
+EndIf
+;-----------------------------------------------------
+If $CmdLine[$t] = "-usb_serial" Then
+   $usb_serial = $CmdLine[$t+1]
+EndIf
+;-----------------------------------------------------
+If $CmdLine[$t] = "-time_to_react" Then
+   $time_to_react = $CmdLine[$t+1]
+EndIf
+Next
+#EndRegion
 #Region default start vars
-$timeout=10000
-$usb_serial = 'PBAB5'
-$time_to_react = 30
+;~ $timeout=10000
+;~ $usb_serial = 'PBAB5'
+;~ $time_to_react = 30
 #EndRegion
 $time_to_react = Number($time_to_react)
 _FileWriteLog($log, "=======================================================================================================")
@@ -101,14 +101,14 @@ Func _RunInCMD($sPath)
 EndFunc
 Func _Clear2($type = 10, $visible = 1)
     ; #############################################################################
-    ; Типы очистки:
-    ; 1 = Очистить Журнал
-    ; 2 = Очистить файлы "Cookie"
-    ; 8 = Очистить временные файлы Интернета
-    ; 16 = Очистить данные веб-форм
-    ; 32 = Очистить пароли
-    ; 255 = Удалить все
-    ; 4351 = Удалить все, включая данные и файлы созданные дополнениями (аддонами)
+    ; Oeiu i?enoee:
+    ; 1 = I?enoeou ?o?iae
+    ; 2 = I?enoeou oaeeu "Cookie"
+    ; 8 = I?enoeou a?aiaiiua oaeeu Eioa?iaoa
+    ; 16 = I?enoeou aaiiua aaa-oi?i
+    ; 32 = I?enoeou ia?iee
+    ; 255 = Oaaeeou ana
+    ; 4351 = Oaaeeou ana, aee??ay aaiiua e oaeeu nicaaiiua aiiieiaieyie (aaaiiaie)
     ; #############################################################################
 
     If $visible = 1 Then
@@ -202,17 +202,20 @@ _IELoadWait ($oIE)
 Sleep(1000)
 $oForm = _IEFormGetCollection ($oIE, 0)
 $username_form = _IEFormElementGetObjByName ($oForm, 'username')
-$password_form = _IEFormElementGetObjByName ($oForm, 'password')
+$password_form = _IEFormElementGetObjByName ($oForm, 'pw')
 ;this one
 _IEFormElementSetValue($username_form, $username)
 _IEFormElementSetValue($password_form, $password)
 ;needs a fix
+
+
 Sleep(5000)
 Local $oSubmit = _IEGetObjByID($oIE, "Login")
 _IEAction($oSubmit, "click")
 $AlarmMode = False
 Sleep(5000)
 _IELoadWait ($oIE)
+
 While 1
 _IEAction($oIE, "refresh")
 _IELoadWait ($oIE)
